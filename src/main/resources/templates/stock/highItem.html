@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>High Items</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 6px; /* 패딩 조정 */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            word-break: break-all; /* 긴 텍스트가 셀 너비를 벗어날 경우 줄 바꿈 */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<h1>High Items</h1>
+<table>
+    <thead>
+    <tr>
+        <th>회사명</th>
+        <th>등락률</th>
+        <th>거래량</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${highItems}">
+        <td><a th:href="@{'/company'}" th:text="${item.name}"></a></td>
+        <td th:text="${item.diff}"></td>
+        <td th:text="${item.volume}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
