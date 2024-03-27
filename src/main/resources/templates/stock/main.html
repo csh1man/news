@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+        /* 모바일 장치에 대한 스타일 */
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+        h1 {
+            color: #333;
+            font-size: 36px; /* 제목 폰트 크기를 크게 설정합니다. */
+            font-weight: bold; /* 글꼴을 굵게 설정합니다. */
+            margin-bottom: 20px; /* 아래 여백을 추가합니다. */
+            text-transform: uppercase; /* 글자를 대문자로 변환합니다. */
+            letter-spacing: 2px; /* 글자 사이의 간격을 늘립니다. */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 원하는 폰트로 변경합니다. */
+        }
+
+        .btn {
+            display: block; /* 인라인 요소에서 블록 요소로 변경합니다. */
+            margin: 10px auto; /* 버튼을 가운데 정렬합니다. */
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>KRInvestment 주식 분석 사이트</h1>
+    <a th:href="@{/evest/stock/high-item}" class="btn">오늘의 등락률 순위</a>
+    <a th:href="@{/evest/stock/high-item}" class="btn">오늘의 거래량 순위</a>
+</div>
+</body>
+</html>
