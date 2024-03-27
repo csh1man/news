@@ -5,6 +5,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.krinvest.news.evest.dto.T1441Info;
+import com.krinvest.news.evest.dto.TokenInfo;
+import com.krinvest.news.util.ConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -15,21 +17,27 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EvestStockService {
     private String baseUrl = "https://openapi.ebestsec.co.kr:8080";
-
+    private Map<String, String> key;
     @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
     private Gson gson;
 
+    public EvestStockService(){
+        this.key = ConfigUtil.getApiKey("evest");
+    }
     public String getNewToken(){
         String url = baseUrl + "/oauth2/token";
-        String appKey = "PSf5ETA5fyNsMd0gWwVyBE21sZeX8PKCuCL3";
-        String appSecretKey = "X0VZlHLXYrAmNRQ2sMqE8TdQHy8BSHDA";
+
+        String appKey = key.get("access");
+        String appSecretKey = key.get("secret");
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -42,6 +50,13 @@ public class EvestStockService {
         // HttpEntity 객체 생성
         HttpEntity<String> entity = new HttpEntity<>(requestBody, httpHeaders);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        /* response json 에서 expires_in 획득하여 config.json에 업로드 */
+        TokenInfo tokenInfo = gson.fromJson(responseEntity.getBody(), TokenInfo.class);
+        ConfigUtil.updateEvestTokenInfo(tokenInfo);
+
+        /* 업로드된 파일 메모리에 재할당 */
+        this.key = ConfigUtil.getApiKey("evest");
 
         return responseEntity.getBody();
     }
@@ -60,7 +75,7 @@ public class EvestStockService {
         httpHeaders.setAcceptCharset(List.of(StandardCharsets.UTF_8));
 
         /* api key 및 각종 파라미터 설정*/
-        httpHeaders.set("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6Ijk0NjU5NDEwLTg2OWMtNDc3Yi1hNzg1LTI4ZTY1NDJhMjAzMCIsIm5iZiI6MTcxMTUxMDgyNSwiZ3JhbnRfdHlwZSI6IkNsaWVudCIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNTc2Nzk5LCJpYXQiOjE3MTE1MTA4MjUsImp0aSI6IlBTZjVFVEE1ZnlOc01kMGdXd1Z5QkUyMXNaZVg4UEtDdUNMMyJ9.UG8oNpBbp5ygrAZbm8EuYYNz8s1kITtOiwDjmqmAur2FZDA3fQhJ3FMjqCjDGQI_Fws3NtXLXKfoeYjA8i6j-g");
+        httpHeaders.set("authorization", "Bearer " + key.get("token"));
         httpHeaders.set("tr_cd", trCode);
         httpHeaders.set("tr_cont", "N");
 

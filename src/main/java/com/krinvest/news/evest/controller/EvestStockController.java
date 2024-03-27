@@ -25,12 +25,11 @@ public class EvestStockController {
      */
     @GetMapping("/evest/issue/token")
     public String issueNewToken(){
-        String response = evestStockService.getNewToken();
-        return response;
+        return evestStockService.getNewToken();
     }
 
     /**
-     * 등락률 상위 종목을 가져온다.
+     * 등락률 상위 종목 총 20개를 가져온다.
      */
     @GetMapping("/evest/stock/high-item")
     public String getHighItem(Model model){
