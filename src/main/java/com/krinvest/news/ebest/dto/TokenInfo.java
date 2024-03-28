@@ -1,4 +1,4 @@
-package com.krinvest.news.evest.dto;
+package com.krinvest.news.ebest.dto;
 
 import com.google.gson.annotations.SerializedName;
 
