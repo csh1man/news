@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -87,7 +88,7 @@ public class EvestStockService {
         /* response json 에서 expires_in 획득하여 설정파일에 업로드 */
         TokenInfo tokenInfo = gson.fromJson(responseEntity.getBody(), TokenInfo.class);
         ConfigUtil.updateEvestTokenInfo(tokenInfo);
-        System.out.println("신규 토큰 : [" + tokenInfo.getAccessToken()+"]");
+
         /* 업로드된 파일 메모리에 재할당 */
         this.key = ConfigUtil.getApiKey("evest");
 
@@ -200,6 +201,12 @@ public class EvestStockService {
         List<T1452Info> t1452Infos = new ArrayList<>();
         for(JsonElement element : t1452Blocks){
             t1452Infos.add(new T1452Info(element.getAsJsonObject()));
+        }
+
+        Collections.sort(t1452Infos, (info1, info2) -> info2.getVolume().compareTo(info1.getVolume()));
+
+        for(T1452Info t1452Info : t1452Infos){
+            System.out.println(t1452Info.toString());
         }
 
         return t1452Infos;

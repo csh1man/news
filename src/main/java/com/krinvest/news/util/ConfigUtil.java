@@ -39,20 +39,12 @@ public class ConfigUtil {
         /* 환경설정 파일에서 특정 회사의 필드를 가져온다. */
         JsonObject keyJson = getConfigJson().get(company.toLowerCase()).getAsJsonObject();
         Map<String, String> key = new HashMap<String, String>();
-        if(key.get("access") != null && !"".equals(key.get("access"))){
-            key.put("access", keyJson.get("access").getAsString());
-        }
 
-        if(key.get("secret") != null && !"".equals(key.get("secret"))){
-            key.put("secret", keyJson.get("secret").getAsString());
-        }
-        if(key.get("token") != null && !"".equals(key.get("token"))){
-            key.put("token", keyJson.get("token").getAsString());
-        }
-        if(key.get("tokenExpireDate") != null && !"".equals(key.get("tokenExpireDate"))){
-            key.put("tokenExpireDate", keyJson.get("tokenExpireDate").getAsString());
-        }
-        System.out.println("key size : [" + key.size()+"]");
+        key.put("access", keyJson.get("access").getAsString());
+        key.put("secret", keyJson.get("secret").getAsString());
+        key.put("token", keyJson.get("token").getAsString());
+        key.put("tokenExpireDate", keyJson.get("tokenExpireDate").getAsString());
+
         for(Map.Entry<String, String> entry : key.entrySet()){
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }

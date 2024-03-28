@@ -13,8 +13,9 @@ public class SearchApplication {
 
 	public static void main(String[] args) {
 
-		String configPath = "C:\\Users\\KOSCOM\\Desktop\\각종자료\\개인자료\\key.json";
-		ConfigUtil.setConfigPath(args[0]);
+//		String configPath = "C:\\Users\\KOSCOM\\Desktop\\각종자료\\개인자료\\key.json";
+		String configPath = "C:/Users/user/Desktop/개인자료/콤트/key/news_config.json";
+		ConfigUtil.setConfigPath(configPath);
 
 		SpringApplication.run(SearchApplication.class, args);
 	}

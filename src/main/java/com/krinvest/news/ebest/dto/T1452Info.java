@@ -80,4 +80,8 @@ public class T1452Info {
     public void setBeforeVolume(BigDecimal beforeVolume) {
         this.beforeVolume = beforeVolume;
     }
+
+    public String toString(){
+        return "name : [" + this.name + "], volume : [" + this.volume + "]";
+    }
 }
