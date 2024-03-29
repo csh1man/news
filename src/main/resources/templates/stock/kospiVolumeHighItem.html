@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>코스피 거래량 상위 목록</title>
+  <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 6px; /* 패딩 조정 */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            word-break: break-all; /* 긴 텍스트가 셀 너비를 벗어날 경우 줄 바꿈 */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        /* 모바일 장치에 대한 스타일 */
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>코스피 거래량 상위 목록</h1>
+<table>
+  <thead>
+  <tr>
+    <th>회사명</th>
+    <th>등락률</th>
+    <th>전일거래량</th>
+    <th>거래량</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item : ${volumeHighItems}">
+    <td><a th:href="@{'/naver/search'}" th:text="${item.name}"></a></td>
+    <td th:text="${item.diff}"></td>
+    <td th:text="${@thymeleafUtil.addCommas(item.beforeVolume)}"></td>
+    <td th:text="${@thymeleafUtil.addCommas(item.volume)}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

@@ -111,7 +111,7 @@ public class EvestStockService {
     /**
      * 등락률 상위 종목을 가져온다.
      */
-    public List<T1441Info> getDiffHighItem(){
+    public List<T1441Info> getDiffHighItem(boolean isKospi){
         String url = baseUrl + "/stock/high-item";
         String trCode = "t1441";
 
@@ -129,7 +129,10 @@ public class EvestStockService {
 
         /* 바디 설정 */
         JsonObject t1441InBlock = new JsonObject();
-        t1441InBlock.addProperty("gubun1", "1");
+        if(isKospi)
+            t1441InBlock.addProperty("gubun1", "1");
+        else
+            t1441InBlock.addProperty("gubun1", "2");
         t1441InBlock.addProperty("gubun2", "0");
         t1441InBlock.addProperty("gubun3", "0");
         t1441InBlock.addProperty("jc_num", 0);
@@ -160,7 +163,7 @@ public class EvestStockService {
     /**
      * 거래량 상위 종목을 가져온다.
      */
-    public List<T1452Info> getVolumeHighItem(){
+    public List<T1452Info> getVolumeHighItem(boolean isKospi){
         String url = baseUrl + "/stock/high-item";
         String trCode = "t1452";
 
@@ -177,19 +180,25 @@ public class EvestStockService {
         httpHeaders.set("tr_cont", "N");
 
         /* 바디 설정 */
-        JsonObject t1441InBlock = new JsonObject();
-        t1441InBlock.addProperty("gubun1", "1");
-        t1441InBlock.addProperty("gubun2", "0");
-        t1441InBlock.addProperty("gubun3", "0");
-        t1441InBlock.addProperty("jc_num", 0);
-        t1441InBlock.addProperty("sprice", 0);
-        t1441InBlock.addProperty("eprice", 0);
-        t1441InBlock.addProperty("volume", 0);
-        t1441InBlock.addProperty("idx", 0);
-        t1441InBlock.addProperty("jc_num", 0x00004000);
+        JsonObject t1452InBlock = new JsonObject();
+        /* 코스피 코스닥 여부 체크 */
+        if(isKospi)
+            t1452InBlock.addProperty("gubun", "1");
+        else
+            t1452InBlock.addProperty("gubun", "2");
+
+        t1452InBlock.addProperty("jnilgubun", "1");
+        t1452InBlock.addProperty("sdiff", -30);
+        t1452InBlock.addProperty("ediff", 30);
+        t1452InBlock.addProperty("jc_num", 0x00200000);
+        t1452InBlock.addProperty("jc_num", 0);
+        t1452InBlock.addProperty("sprice", 0);
+        t1452InBlock.addProperty("eprice", 0);
+        t1452InBlock.addProperty("volume", 0);
+        t1452InBlock.addProperty("idx", 0);
 
         JsonObject jsonObject = new JsonObject();
-        jsonObject.add("t1452InBlock", t1441InBlock);
+        jsonObject.add("t1452InBlock", t1452InBlock);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(gson.toJson(jsonObject), httpHeaders);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);

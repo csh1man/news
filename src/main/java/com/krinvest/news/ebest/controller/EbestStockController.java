@@ -31,25 +31,47 @@ public class EbestStockController {
     }
 
     /**
-     * 등락률 상위 종목 총 20개를 가져온다.
+     * 코스피 등락률 상위 종목 총 20개를 가져온다.
      */
-    @GetMapping("/evest/stock/high-item")
-    public String getDiffHighItem(Model model){
-        List<T1441Info> t1441Infos = evestStockService.getDiffHighItem();
+    @GetMapping("/evest/stock/kospi/high-item")
+    public String getKospiDiffHighItem(Model model){
+        List<T1441Info> t1441Infos = evestStockService.getDiffHighItem(true);
         model.addAttribute("highItems", t1441Infos);
 
-        return "stock/highItem";
+        return "stock/kospiHighItem";
+    }
+
+    /**
+     * 코스닥 등락률 상위 종목 총 20개를 가져온다.
+     */
+    @GetMapping("/evest/stock/kosdaq/high-item")
+    public String getKosdaqDiffHighItem(Model model){
+        List<T1441Info> t1441Infos = evestStockService.getDiffHighItem(false);
+        model.addAttribute("highItems", t1441Infos);
+
+        return "stock/kosdaqHighItem.html";
     }
 
     /**
      * 거래량 상위 종목을 가져온다.
      */
-    @GetMapping("/evest/stock/volume-high-item")
-    public String getVolumeHighItem(Model model){
-        List<T1452Info> t1452Infos = evestStockService.getVolumeHighItem();
+    @GetMapping("/evest/stock/kospi/volume-high-item")
+    public String getKospiVolumeHighItem(Model model){
+        List<T1452Info> t1452Infos = evestStockService.getVolumeHighItem(true);
         model.addAttribute("volumeHighItems", t1452Infos);
 
-        return "stock/volumeHighItem";
+        return "stock/kospiVolumeHighItem";
+    }
+
+    /**
+     * 코스닥 거래량 상위 종목을 가져온다.
+     */
+    @GetMapping("/evest/stock/kosdaq/volume-high-item")
+    public String getKosdaqVolumeHighItem(Model model){
+        List<T1452Info> t1452Infos = evestStockService.getVolumeHighItem(false);
+        model.addAttribute("volumeHighItems", t1452Infos);
+
+        return "stock/kosdaqVolumeHighItem";
     }
 
     @GetMapping("/company")
