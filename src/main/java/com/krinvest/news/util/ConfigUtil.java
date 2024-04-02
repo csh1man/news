@@ -42,8 +42,12 @@ public class ConfigUtil {
 
         key.put("access", keyJson.get("access").getAsString());
         key.put("secret", keyJson.get("secret").getAsString());
-        key.put("token", keyJson.get("token").getAsString());
-        key.put("tokenExpireDate", keyJson.get("tokenExpireDate").getAsString());
+        if(keyJson.get("token") != null && !"".equals(keyJson.get("token").getAsString())){
+            key.put("token", keyJson.get("token").getAsString());
+        }
+        if(keyJson.get("tokenExpireDate") != null && !"".equals(keyJson.get("tokenExpireDate").getAsString())){
+            key.put("tokenExpireDate", keyJson.get("tokenExpireDate").getAsString());
+        }
 
         for(Map.Entry<String, String> entry : key.entrySet()){
             System.out.println(entry.getKey() + " -> " + entry.getValue());

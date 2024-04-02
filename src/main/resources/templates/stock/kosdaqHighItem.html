@@ -41,7 +41,7 @@
   </thead>
   <tbody>
   <tr th:each="item : ${highItems}">
-    <td><a th:href="@{'/naver/search'}" th:text="${item.name}"></a></td>
+    <td><a th:href="@{'/naver/search?name=' + ${item.name}}" th:text="${item.name}"></a></td>
     <td th:text="${item.diff}"></td>
     <td th:text="${@thymeleafUtil.addCommas(item.volume)}"></td>
   </tr>

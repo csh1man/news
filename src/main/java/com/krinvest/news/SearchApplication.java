@@ -1,6 +1,7 @@
 package com.krinvest.news;
 
 import com.krinvest.news.util.ConfigUtil;
+import com.krinvest.news.util.DataUtil;
 import com.krinvest.news.util.TimeUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

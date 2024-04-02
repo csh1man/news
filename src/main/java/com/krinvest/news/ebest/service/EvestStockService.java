@@ -8,6 +8,7 @@ import com.krinvest.news.ebest.dto.T1441Info;
 import com.krinvest.news.ebest.dto.T1452Info;
 import com.krinvest.news.ebest.dto.TokenInfo;
 import com.krinvest.news.util.ConfigUtil;
+import com.krinvest.news.util.DataUtil;
 import com.krinvest.news.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -31,13 +32,13 @@ public class EvestStockService {
     private Gson gson;
 
     public EvestStockService() {
-        this.key = ConfigUtil.getApiKey("evest");
+        this.key = ConfigUtil.getApiKey(DataUtil.EBEST);
         
     }
 
     private boolean checkAppKey(){
-        String appKey = key.get("access");
-        String appSecretKey = key.get("secret");
+        String appKey = key.get(DataUtil.ACCESS_STR);
+        String appSecretKey = key.get(DataUtil.SECRET_STR);
         if(appKey == null || "".equals(appKey) || appSecretKey == null || "".equals(appSecretKey)){
             System.out.println("evest의 API 키 값 셋팅이 올바르지 않습니다. 확인 부탁드립니다.");
             return false;
@@ -50,7 +51,7 @@ public class EvestStockService {
      */
     private boolean isTokenExpired(){
         String currentTime = TimeUtil.getCurrentTimeAsString(ConfigUtil.isKstTimeServer());
-        String expireTime = ConfigUtil.getExpireDateAsString("evest");
+        String expireTime = ConfigUtil.getExpireDateAsString(DataUtil.EBEST);
         if(TimeUtil.compareTime(currentTime, expireTime) >= 0){
             return true;
         }
@@ -65,8 +66,8 @@ public class EvestStockService {
         String url = baseUrl + "/oauth2/token";
 
         /* api key 획득 */
-        String appKey = key.get("access");
-        String appSecretKey = key.get("secret");
+        String appKey = key.get(DataUtil.ACCESS_STR);
+        String appSecretKey = key.get(DataUtil.SECRET_STR);
 
         if(!checkAppKey()){
             return null;
@@ -90,7 +91,7 @@ public class EvestStockService {
         ConfigUtil.updateEvestTokenInfo(tokenInfo);
 
         /* 업로드된 파일 메모리에 재할당 */
-        this.key = ConfigUtil.getApiKey("evest");
+        this.key = ConfigUtil.getApiKey(DataUtil.EBEST);
 
         /* 신규 토큰 반환 */
         return tokenInfo.getAccessToken();
@@ -214,9 +215,6 @@ public class EvestStockService {
 
         Collections.sort(t1452Infos, (info1, info2) -> info2.getVolume().compareTo(info1.getVolume()));
 
-        for(T1452Info t1452Info : t1452Infos){
-            System.out.println(t1452Info.toString());
-        }
 
         return t1452Infos;
     }
