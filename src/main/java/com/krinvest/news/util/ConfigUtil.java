@@ -41,7 +41,9 @@ public class ConfigUtil {
         Map<String, String> key = new HashMap<String, String>();
 
         key.put("access", keyJson.get("access").getAsString());
-        key.put("secret", keyJson.get("secret").getAsString());
+        if(keyJson.get("secret") != null && !"".equals(keyJson.get("secret").getAsString())){
+            key.put("secret", keyJson.get("secret").getAsString());
+        }
         if(keyJson.get("token") != null && !"".equals(keyJson.get("token").getAsString())){
             key.put("token", keyJson.get("token").getAsString());
         }

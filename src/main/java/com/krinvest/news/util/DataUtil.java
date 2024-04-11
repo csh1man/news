@@ -2,7 +2,7 @@ package com.krinvest.news.util;
 
 public class DataUtil {
     public static String EBEST = "evest";
-
+    public static String DART = "dart";
     public static String NAVER = "naver";
 
     public static String TOKEN_STR = "token";
